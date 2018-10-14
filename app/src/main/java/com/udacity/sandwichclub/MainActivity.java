@@ -8,6 +8,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.udacity.sandwichclub.model.Sandwich;
+import com.udacity.sandwichclub.utils.JsonUtils;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -28,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
                 launchDetailActivity(position);
             }
         });
+
+        // just testing
+        String[] example = getResources().getStringArray(R.array.sandwich_details);
+        String json = example[0];
+        Sandwich exampleObject = JsonUtils.parseSandwichJson(json);
     }
 
     private void launchDetailActivity(int position) {
