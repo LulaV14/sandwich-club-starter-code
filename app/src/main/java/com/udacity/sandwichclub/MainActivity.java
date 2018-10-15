@@ -1,46 +1,44 @@
 package com.udacity.sandwichclub;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import java.util.ArrayList;
 
 import com.udacity.sandwichclub.model.Sandwich;
 import com.udacity.sandwichclub.utils.JsonUtils;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private RecyclerView mRecyclerView;
+    private SandwichAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private List<Sandwich> sandwichList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String[] sandwiches = getResources().getStringArray(R.array.sandwich_names);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, sandwiches);
-
-        // Simplification: Using a ListView instead of a RecyclerView
-        ListView listView = findViewById(R.id.sandwiches_listview);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                launchDetailActivity(position);
-            }
-        });
-
-        // just testing
-        String[] example = getResources().getStringArray(R.array.sandwich_details);
-        String json = example[0];
-        Sandwich exampleObject = JsonUtils.parseSandwichJson(json);
+        sandwichList = getSandwichData();
+        mRecyclerView = findViewById(R.id.sandwich_recycler_view);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        mAdapter = new SandwichAdapter(sandwichList);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void launchDetailActivity(int position) {
-        Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra(DetailActivity.EXTRA_POSITION, position);
-        startActivity(intent);
+    private List<Sandwich> getSandwichData () {
+        List<Sandwich> sandwichList = new ArrayList<>();
+        String[] sandwichDetails = getResources().getStringArray(R.array.sandwich_details);
+        for(String sandwichJSON : sandwichDetails) {
+            sandwichList.add(JsonUtils.parseSandwichJson(sandwichJSON));
+        }
+        return sandwichList;
     }
 }
