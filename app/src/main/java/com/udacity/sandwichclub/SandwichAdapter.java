@@ -14,6 +14,9 @@ import com.udacity.sandwichclub.model.Sandwich;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class SandwichAdapter extends RecyclerView.Adapter<SandwichAdapter.ViewHolder> {
 
     private List<Sandwich> sandwichList;
@@ -53,14 +56,13 @@ public class SandwichAdapter extends RecyclerView.Adapter<SandwichAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView sandwichTitle, sandwichDescription;
-        private ImageView sandwichImage;
+        @BindView(R.id.tv_list_title) TextView sandwichTitle;
+        @BindView(R.id.tv_list_description) TextView sandwichDescription;
+        @BindView(R.id.iv_image_list) ImageView sandwichImage;
 
         private ViewHolder(View view) {
             super(view);
-            sandwichTitle = view.findViewById(R.id.tv_list_title);
-            sandwichDescription = view.findViewById(R.id.tv_list_description);
-            sandwichImage = view.findViewById(R.id.iv_image_list);
+            ButterKnife.bind(this, view);
             view.setOnClickListener(this);
         }
 

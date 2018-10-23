@@ -15,6 +15,14 @@ public class JsonUtils {
 
     private static final String ACTIVITY_NAME = JsonUtils.class.getName();
 
+    private static final String KEY_NAME = "name",
+                                KEY_MAIN_NAME = "mainName",
+                                KEY_ALSO_KNOWN_AS = "alsoKnownAs",
+                                KEY_PLACE_OF_ORIGIN = "placeOfOrigin",
+                                KEY_DESCRIPTION = "description",
+                                KEY_INGREDIENTS = "ingredients",
+                                KEY_IMAGE = "image";
+
     public static Sandwich parseSandwichJson(String json) {
         String mainName, placeOfOrigin, description, image;
         JSONArray alsoKnownAs, ingredients;
@@ -22,13 +30,13 @@ public class JsonUtils {
         Sandwich sandwichObject = null;
         try {
             JSONObject sandwichDetails = new JSONObject(json);
-            name = sandwichDetails.getJSONObject("name");
-            mainName = name.getString("mainName");
-            alsoKnownAs = name.getJSONArray("alsoKnownAs");
-            placeOfOrigin = sandwichDetails.getString("placeOfOrigin");
-            description = sandwichDetails.getString("description");
-            image = sandwichDetails.getString("image");
-            ingredients = sandwichDetails.getJSONArray("ingredients");
+            name = sandwichDetails.getJSONObject(KEY_NAME);
+            mainName = name.getString(KEY_MAIN_NAME);
+            alsoKnownAs = name.getJSONArray(KEY_ALSO_KNOWN_AS);
+            placeOfOrigin = sandwichDetails.getString(KEY_PLACE_OF_ORIGIN);
+            description = sandwichDetails.getString(KEY_DESCRIPTION);
+            image = sandwichDetails.getString(KEY_IMAGE);
+            ingredients = sandwichDetails.getJSONArray(KEY_INGREDIENTS);
             sandwichObject = new Sandwich(mainName, parseArray(alsoKnownAs), placeOfOrigin,
                     description, image, parseArray(ingredients));
         } catch(JSONException e) {

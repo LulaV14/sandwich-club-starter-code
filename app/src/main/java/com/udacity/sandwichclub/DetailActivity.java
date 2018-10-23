@@ -13,18 +13,29 @@ import com.squareup.picasso.Picasso;
 import com.udacity.sandwichclub.model.Sandwich;
 import com.udacity.sandwichclub.utils.JsonUtils;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class DetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_POSITION = "extra_position";
     private static final int DEFAULT_POSITION = -1;
-    private ImageView mSandwichImage;
-    private TextView mAlsoKnownAs, mOrigin, mDescription, mIngredients;
-    private TextView mAKALabel, mOriginLabel, mDescriptionLabel, mIngredientsLabel;
+    @BindView(R.id.image_iv) ImageView mSandwichImage;
+    @BindView(R.id.also_known_tv) TextView mAlsoKnownAs;
+    @BindView(R.id.origin_tv) TextView mOrigin;
+    @BindView(R.id.description_tv) TextView mDescription;
+    @BindView(R.id.ingredients_tv) TextView mIngredients;
+
+    @BindView(R.id.aka_label_tv) TextView mAKALabel;
+    @BindView(R.id.origin_label_tv) TextView mOriginLabel;
+    @BindView(R.id.description_label_tv) TextView mDescriptionLabel;
+    @BindView(R.id.ingredients_label_tv) TextView mIngredientsLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        ButterKnife.bind(this);
 
         // show back arrow on toolbar
         try {
@@ -33,17 +44,6 @@ public class DetailActivity extends AppCompatActivity {
         } catch(NullPointerException e) {
             e.printStackTrace();
         }
-
-        mSandwichImage = findViewById(R.id.image_iv);
-        mAlsoKnownAs = findViewById(R.id.also_known_tv);
-        mOrigin = findViewById(R.id.origin_tv);
-        mDescription = findViewById(R.id.description_tv);
-        mIngredients = findViewById(R.id.ingredients_tv);
-
-        mAKALabel = findViewById(R.id.aka_label_tv);
-        mOriginLabel = findViewById(R.id.origin_label_tv);
-        mDescriptionLabel = findViewById(R.id.description_label_tv);
-        mIngredientsLabel = findViewById(R.id.ingredients_label_tv);
 
         Intent intent = getIntent();
         if (intent == null) {
